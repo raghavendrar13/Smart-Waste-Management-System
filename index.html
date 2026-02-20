@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waste Management System</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: #020617;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    nav h1 {
+      color: #22c55e;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #e2e8f0;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #22c55e;
+    }
+
+    .btn {
+      background: #22c55e;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: black;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: #16a34a;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .card {
+      background: #020617;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 15px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    footer {
+      background: #020617;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    canvas {
+      background: white;
+      border-radius: 10px;
+    }
+
+    @media(max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <h1>CleanCity</h1>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#complaint">Complaint</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#track">Track</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="grid-2">
+    <img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png" width="100%">
+
+    <div>
+      <h2>Welcome to CleanCity Waste Management</h2>
+      <p>Smart solution for waste collection, cleaning services, and complaint tracking.</p>
+      <br>
+      <button class="btn">Login</button>
+      <button class="btn">Register</button>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <h2>Our Services</h2>
+    <br>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Waste Collection Request</h3>
+        <select>
+          <option>Biodegradable</option>
+          <option>Non‑biodegradable</option>
+          <option>Biomedical</option>
+          <option>Electronic</option>
+          <option>Industrial</option>
+        </select>
+        <button class="btn">Submit</button>
+      </div>
+
+      <div class="card">
+        <h3>Cleaning Services</h3>
+        <select>
+          <option>Street Sweeping</option>
+          <option>Road Cleaning</option>
+          <option>Door‑to‑Door Cleaning</option>
+          <option>Locality Issue</option>
+        </select>
+        <button class="btn">Submit</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPLAINT -->
+  <section id="complaint">
+    <h2>Register Complaint</h2>
+    <br>
+
+    <div class="card">
+      <input type="text" id="name" placeholder="Your Name">
+      <input type="text" id="phone" placeholder="Phone Number">
+      <textarea id="desc" placeholder="Complaint Description"></textarea>
+      <input type="file" id="image" accept="image/*">
+      <button class="btn" onclick="submitComplaint()">Submit Complaint</button>
+
+      <p id="ref" style="margin-top:10px;color:#22c55e"></p>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard">
+    <h2>Waste Prediction Dashboard (India)</h2>
+    <br>
+    <canvas id="chart"></canvas>
+  </section>
+
+  <!-- EMERGENCY & COMMUNITY -->
+  <section id="emergency">
+    <h2>Emergency & Community Features</h2>
+    <br>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Report Illegal Dumping</h3>
+        <p>Help keep your city clean by reporting illegal waste dumping.</p>
+        <button class="btn" onclick="alert('Redirect to Illegal Dumping Report Form')">Report Now</button>
+      </div>
+
+      <div class="card">
+        <h3>SOS – Dead Animals / Medical Waste</h3>
+        <p>Send an urgent alert to municipal services for immediate action.</p>
+        <button class="btn" onclick="sendSOS()">Send SOS</button>
+        <p id="sosMsg" style="margin-top:10px;color:#22c55e"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACK -->
+  <section id="track">
+    <h2>Track Complaint</h2>
+    <br>
+
+    <div class="card">
+      <input type="text" id="trackId" placeholder="Enter Reference Number">
+      <button class="btn" onclick="trackComplaint()">Track</button>
+      <p id="status"></p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <br>
+
+    <div class="card">
+      <p>📞 Phone: +91 9876543210</p>
+      <p>📧 Email: cleancity@email.com</p>
+      <p>📍 Address: India</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 CleanCity Waste Management</p>
+  </footer>
+
+
+  <script>
+    const complaints = {};
+
+    function submitComplaint() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const desc = document.getElementById("desc").value;
+
+      if (!name || !phone || !desc) {
+        alert("Fill all fields");
+        return;
+      }
+
+      const ref = "REF" + Math.floor(Math.random() * 100000);
+      complaints[ref] = "Pending";
+
+      document.getElementById("ref").innerText = "Complaint Registered. Reference: " + ref;
+    }
+
+    function trackComplaint() {
+      const id = document.getElementById("trackId").value;
+      const status = complaints[id];
+
+      if (status) {
+        document.getElementById("status").innerText = "Status: " + status;
+      } else {
+        document.getElementById("status").innerText = "Invalid Reference Number";
+      }
+    }
+
+    function sendSOS() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const lat = pos.coords.latitude.toFixed(4);
+          const lon = pos.coords.longitude.toFixed(4);
+          document.getElementById("sosMsg").innerText =
+            "SOS sent with your location (" + lat + ", " + lon + "). Help is on the way!";
+        }, () => {
+          document.getElementById("sosMsg").innerText =
+            "Location access denied. SOS sent without location.";
+        });
+      } else {
+        document.getElementById("sosMsg").innerText =
+          "Geolocation not supported. SOS sent.";
+      }
+    }
+
+    // Chart
+    const ctx = document.getElementById('chart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Plastic', 'Organic', 'E‑Waste', 'Medical'],
+        datasets: [{
+          label: 'Waste Generated (Million Tons)',
+          data: [12, 19, 7, 5]
+        }]
+      }
+    });
+  </script>
+
+</body>
+</html>
+
